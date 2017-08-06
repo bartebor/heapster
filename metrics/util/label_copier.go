@@ -52,7 +52,7 @@ func (this *LabelCopier) Copy(in map[string]string, out map[string]string) {
 }
 
 // makeStoredLabels converts labels into a map for quicker retrieval.
-// Incoming labels, if desired, may contain mapping in format "newName=oldName"
+// Incoming labels, if desired, may contain mappings in format "newName=oldName"
 func makeStoredLabels(labels []string) map[string]string {
 	storedLabels := make(map[string]string)
 	for _, s := range labels {
@@ -75,7 +75,7 @@ func makeIgnoredLabels(labels []string) map[string]string {
 	return ignoredLabels
 }
 
-// NewLabelCopier creates new instance of LabelCopier type
+// NewLabelCopier creates a new instance of LabelCopier type
 func NewLabelCopier(seperator string, storedLabels, ignoredLabels []string) (*LabelCopier, error) {
 	return &LabelCopier{
 		labelSeperator: seperator,

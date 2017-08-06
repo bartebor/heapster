@@ -29,6 +29,7 @@ func TestDefault(t *testing.T) {
 
 	expected := map[string]string{
 		core.LabelLabels.Key: "colour:red," + core.LabelLabels.Key + ":preorder;configurable,name:bike,price:too_high,weight:10kg",
+		"somelabel":          "somevalue",
 	}
 	assert.Equal(t, expected, actual)
 }
@@ -41,6 +42,7 @@ func TestSeperator(t *testing.T) {
 
 	expected := map[string]string{
 		core.LabelLabels.Key: "colour:red-" + core.LabelLabels.Key + ":preorder;configurable-name:bike-price:too_high-weight:10kg",
+		"somelabel":          "somevalue",
 	}
 	assert.Equal(t, expected, actual)
 }
@@ -56,6 +58,7 @@ func TestStoredLabels(t *testing.T) {
 		"price":              "too_high",
 		"copiedlabels":       "preorder;configurable",
 		core.LabelLabels.Key: "colour:red," + core.LabelLabels.Key + ":preorder;configurable,name:bike,price:too_high,weight:10kg",
+		"somelabel":          "somevalue",
 	}
 	assert.Equal(t, expected, actual)
 }
@@ -68,6 +71,7 @@ func TestIgnoredLabels(t *testing.T) {
 
 	expected := map[string]string{
 		core.LabelLabels.Key: core.LabelLabels.Key + ":preorder;configurable,name:bike,price:too_high",
+		"somelabel":          "somevalue",
 	}
 	assert.Equal(t, expected, actual)
 }
@@ -85,6 +89,7 @@ func TestAll(t *testing.T) {
 		"weight":       "10kg",
 		"copiedlabels": "preorder;configurable",
 		"labels":       "name:bike-weight:10kg",
+		"somelabel":    "somevalue",
 	}
 	assert.Equal(t, expected, actual)
 }
@@ -103,7 +108,9 @@ func initializeAndCopy(t *testing.T, seperator string, storedLabels []string, ig
 		t.Fatalf("Could not create LabelCopier: %v", err)
 	}
 
-	out := make(map[string]string)
+	out := map[string]string{
+		"somelabel": "somevalue",
+	}
 	lc.Copy(labels, out)
 	return out
 }
