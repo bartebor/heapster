@@ -23,9 +23,12 @@ import (
 
 // LabelCopier maps kubernetes objects' labels to metrics
 type LabelCopier struct {
+	// labelSeperator contains seperator used to join labels into "labels" label
 	labelSeperator string
-	storedLabels   map[string]string
-	ignoredLabels  map[string]string
+	// storedLabels maps source label names to their destination names used in metrics
+	storedLabels map[string]string
+	// ignoredLabels contains labels to be skipped during concatenation
+	ignoredLabels map[string]string
 }
 
 // Copy copies the given set of pod labels into a set of metric labels, using the following logic:
@@ -48,6 +51,8 @@ func (this *LabelCopier) Copy(in map[string]string, out map[string]string) {
 	out[core.LabelLabels.Key] = strings.Join(labels, this.labelSeperator)
 }
 
+// makeStoredLabels converts labels into a map for quicker retrieval.
+// Incoming labels, if desired, may contain mapping in format "newName=oldName"
 func makeStoredLabels(labels []string) map[string]string {
 	storedLabels := make(map[string]string)
 	for _, s := range labels {
@@ -61,6 +66,7 @@ func makeStoredLabels(labels []string) map[string]string {
 	return storedLabels
 }
 
+// makeIgnoredLabels converts label slice into a map for later use.
 func makeIgnoredLabels(labels []string) map[string]string {
 	ignoredLabels := make(map[string]string)
 	for _, s := range labels {
@@ -69,6 +75,7 @@ func makeIgnoredLabels(labels []string) map[string]string {
 	return ignoredLabels
 }
 
+// NewLabelCopier creates new instance of LabelCopier type
 func NewLabelCopier(seperator string, storedLabels, ignoredLabels []string) (*LabelCopier, error) {
 	return &LabelCopier{
 		labelSeperator: seperator,
