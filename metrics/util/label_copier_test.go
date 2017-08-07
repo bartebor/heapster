@@ -79,17 +79,17 @@ func TestIgnoredLabels(t *testing.T) {
 func TestAll(t *testing.T) {
 	actual := initializeAndCopy(t,
 		"-",
-		[]string{"name", "colour", "copiedlabels=labels", "price", "weight", "unknown"},
+		[]string{"name", "colour", "copiedlabels=" + core.LabelLabels.Key, "price", "weight", "unknown"},
 		[]string{"colour", core.LabelLabels.Key, "price", "unknown"})
 
 	expected := map[string]string{
-		"name":         "bike",
-		"colour":       "red",
-		"price":        "too_high",
-		"weight":       "10kg",
-		"copiedlabels": "preorder;configurable",
-		"labels":       "name:bike-weight:10kg",
-		"somelabel":    "somevalue",
+		"name":               "bike",
+		"colour":             "red",
+		"price":              "too_high",
+		"weight":             "10kg",
+		"copiedlabels":       "preorder;configurable",
+		core.LabelLabels.Key: "name:bike-weight:10kg",
+		"somelabel":          "somevalue",
 	}
 	assert.Equal(t, expected, actual)
 }
