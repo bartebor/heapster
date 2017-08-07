@@ -95,6 +95,11 @@ func TestAll(t *testing.T) {
 }
 
 func initializeAndCopy(t *testing.T, seperator string, storedLabels []string, ignoredLabels []string) map[string]string {
+	lc, err := NewLabelCopier(seperator, storedLabels, ignoredLabels)
+	if err != nil {
+		t.Fatalf("Could not create LabelCopier: %v", err)
+	}
+
 	labels := map[string]string{
 		"name":               "bike",
 		"colour":             "red",
@@ -103,14 +108,10 @@ func initializeAndCopy(t *testing.T, seperator string, storedLabels []string, ig
 		core.LabelLabels.Key: "preorder;configurable",
 	}
 
-	lc, err := NewLabelCopier(seperator, storedLabels, ignoredLabels)
-	if err != nil {
-		t.Fatalf("Could not create LabelCopier: %v", err)
-	}
-
 	out := map[string]string{
 		"somelabel": "somevalue",
 	}
+
 	lc.Copy(labels, out)
 	return out
 }
